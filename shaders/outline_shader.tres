@@ -1,0 +1,34 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+
+uniform sampler2D tex;
+uniform vec4 color : hint_color;
+uniform vec2 px;
+
+float sample(in vec2 st){
+	return texture(tex, st).a;
+}
+
+void fragment(){
+	
+	float neighbor = 
+		sample(UV+px*vec2( 1.,  0.))+
+		sample(UV+px*vec2( 0.,  1.))+
+		sample(UV+px*vec2(-1.,  0.))+
+		sample(UV+px*vec2( 0., -1.));
+	
+	float center = sample(UV)*4.;
+	
+	float edge = clamp(center-neighbor, 0., 1.);
+	if (int((UV.x+TIME*0.01) / px.x) % 2 == 0 || int((UV.y+TIME*0.01) / px.y) % 2 == 0 ) 
+	{
+		COLOR = vec4(color.rgb, edge);
+	}
+	else 
+	{
+		COLOR = vec4(0., 0., 0., 0.)
+	}
+	
+}"

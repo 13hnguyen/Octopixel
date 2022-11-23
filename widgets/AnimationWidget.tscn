@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://widgets/AnimationCanvas.tscn" type="PackedScene" id=1]
+[ext_resource path="res://widgets/Frame.tscn" type="PackedScene" id=2]
+[ext_resource path="res://widgets/AnimationWidget.gd" type="Script" id=3]
+
+[node name="AnimationWidget" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( -450, -118 )
+script = ExtResource( 3 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="AnimationViewport" type="ViewportContainer" parent="VBoxContainer"]
+margin_right = 400.0
+margin_bottom = 400.0
+
+[node name="Viewport" type="Viewport" parent="VBoxContainer/AnimationViewport"]
+size = Vector2( 400, 400 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="AnimationCanvas" parent="VBoxContainer/AnimationViewport/Viewport" instance=ExtResource( 1 )]
+unique_name_in_owner = true
+
+[node name="Frames" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 404.0
+margin_right = 400.0
+margin_bottom = 428.0
+
+[node name="Frame1" parent="VBoxContainer/Frames" instance=ExtResource( 2 )]
+pressed = true
+frameNumber = 0
+
+[node name="New Frame" type="Button" parent="VBoxContainer"]
+margin_top = 432.0
+margin_right = 400.0
+margin_bottom = 452.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "+"
+
+[connection signal="frame_changed" from="VBoxContainer/Frames/Frame1" to="." method="_on_frame_changed"]
+[connection signal="pressed" from="VBoxContainer/New Frame" to="." method="new_frame"]

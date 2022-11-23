@@ -1,0 +1,16 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+
+uniform sampler2D textureMap;
+
+
+void fragment(){
+	vec4 T = texture(TEXTURE, UV); 
+	if(T.a > 0.0)
+		COLOR = texture(textureMap, T.rg);
+	else
+		COLOR = vec4(1.0, 1.0, 1.0, 0.0);
+}
+"
