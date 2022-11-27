@@ -4,7 +4,9 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$DuplicateTool.canvas = $AnimationWidget.canvas
+	#$DuplicateTool.canvas = $AnimationWidget.canvas
+	$TextureSelectonTool.canvas = $TextureWidget.canvas
+	$TextureSelectonTool.targetCanvas = $AnimationWidget.canvas
 	
 	yield(get_tree(), "idle_frame")
 	

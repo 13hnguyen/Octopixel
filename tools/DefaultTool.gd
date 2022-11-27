@@ -13,8 +13,6 @@ var rect: Rect2 = Rect2(Vector2.ZERO, Vector2.ZERO)
 var startRect:  Rect2 = Rect2(Vector2.ZERO, Vector2.ZERO)
 var posStart: Vector2
 var posEnd: Vector2
-var posStartGlobal: Vector2
-var posEndGlobal: Vector2
 
 var isActive: bool = false
 var isPressed: bool = false
@@ -28,7 +26,6 @@ func _physics_process(delta: float) -> void:
 	checkInput()
 
 func _draw() -> void:
-	print("draw")
 	textureBuffer.create_from_image(imageBuffer,3)
 	buffer.set_texture(textureBuffer)
 	buffer.rect_size = imageBuffer.get_size()

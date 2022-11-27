@@ -75,6 +75,9 @@ func update_image() -> void:
 	canvas.set_texture(imageTexture)
 	emit_signal("frame_changed")
 
+func get_size() -> Vector2:
+	return image.get_size()
+
 func mouse_coordinates() -> Vector2:
 	var coord = canvas.get_local_mouse_position()
 	var canvasSize = canvas.rect_size

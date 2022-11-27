@@ -14,9 +14,9 @@ func start(pos:Vector2) -> void:
 	directionLeft = pos
 
 func expand(pos:Vector2) -> void:
-	rect = Global.fix_rect(posStart, pos)
-	canvas.change_selection(rect)
-	imageBuffer = canvas.image.get_rect(rect)
+	startRect = Global.fix_rect(posStart, pos)
+	canvas.change_selection(startRect)
+	imageBuffer = canvas.image.get_rect(startRect)
 
 func moveManhattan(dir: Vector2) -> void:
 	rect.position += dir
