@@ -7,7 +7,7 @@ onready var selectionWindow: SelectionWindow = $SelectionWindow
 
 func _ready() -> void:
 	._ready()
-	isActive = true
+	isActive = false
 
 func start(pos:Vector2) -> void:
 	posStart = pos

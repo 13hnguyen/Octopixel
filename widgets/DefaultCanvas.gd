@@ -49,7 +49,6 @@ func zoom(factor: int) -> void:
 func initialize_texture() -> void:
 	imageTexture = ImageTexture.new()
 	load_image("")
-	frames.append(image)
 
 
 func load_image(path: String) -> void:
@@ -103,6 +102,7 @@ func change_frame(index: int) -> void:
 
 func change_selection(newRect: Rect2) -> void:
 	
+	selectionImage.copy_from(image)
 	selectionImage.fill(Color(0,0,0,0))
 	selectionImage.fill_rect(newRect, Color(1,1,1,1))
 	

@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://tools/TextureSelectonTool.tscn" type="PackedScene" id=1]
+[ext_resource path="res://tools/SelectionTool.tscn" type="PackedScene" id=2]
+[ext_resource path="res://tools/DuplicateTool.tscn" type="PackedScene" id=3]
+[ext_resource path="res://widgets/ToolbarWidget.gd" type="Script" id=4]
+
+[node name="ToolbarWidget" type="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 4 )
+
+[node name="SelectionTool" parent="." instance=ExtResource( 2 )]
+
+[node name="DuplicateTool" parent="." instance=ExtResource( 3 )]
+
+[node name="TextureSelectonTool" parent="." instance=ExtResource( 1 )]

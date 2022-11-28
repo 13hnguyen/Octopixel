@@ -34,11 +34,9 @@ func _ready() -> void:
 	isActive = true
 
 func start(pos:Vector2) -> void:
-	print("start ", pos)
 	posStart = pos
 
 func startTarget(pos:Vector2) -> void:
-	print("target ", pos)
 	targetPosStart = pos
 	directionLeft = pos
 
@@ -71,7 +69,6 @@ func clear() -> void:
 func apply() -> void:
 	if rect.position.x >= 0.0 and rect.position.y >= 0.0:
 		
-		print("applied ", rect.position, rect.size)
 		targetCanvas.image.blend_rect(targetImageBuffer,Rect2(Vector2.ZERO,targetCanvas.image.get_size()), rect.position)
 		targetCanvas.update()
 
@@ -90,7 +87,6 @@ func checkInput() -> void:
 	if canvas and targetCanvas and isActive:
 		### RIGHT BUTTON ###
 		if Input.is_action_just_pressed("right_click"):
-			print("right_click pressed")
 			var coord = canvas.mouse_coordinates()
 			if coord.x in range(canvas.get_size().x) and coord.y in range(canvas.get_size().y):
 				isPressed = true
@@ -124,7 +120,6 @@ func checkInput() -> void:
 				end()
 	
 		if Input.is_action_just_released("left_click"):
-			print("left_click released")
 			isPressedLeft = false
 			var otherCoord = targetCanvas.mouse_coordinates()
 			move(otherCoord)
