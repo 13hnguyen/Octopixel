@@ -17,6 +17,8 @@ var posEnd: Vector2
 var isActive: bool = false
 var isPressed: bool = false
 
+var isUnique: bool = false
+
 func _ready() -> void:
 	viewport = get_viewport()
 	imageBuffer = Image.new()

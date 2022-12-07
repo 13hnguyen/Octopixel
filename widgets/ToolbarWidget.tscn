@@ -10,8 +10,47 @@ margin_right = 40.0
 margin_bottom = 40.0
 script = ExtResource( 4 )
 
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+alignment = 1
+
+[node name="TextureSelectionButton" type="Button" parent="VBoxContainer"]
+margin_right = 40.0
+margin_bottom = 20.0
+toggle_mode = true
+text = "TS"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 24.0
+margin_right = 40.0
+margin_bottom = 44.0
+alignment = 2
+
+[node name="SelectionButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 21.0
+margin_right = 40.0
+margin_bottom = 20.0
+text = "S"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 48.0
+margin_right = 40.0
+margin_bottom = 68.0
+alignment = 2
+
+[node name="DuplicateButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 18.0
+margin_right = 40.0
+margin_bottom = 20.0
+text = "D"
+
 [node name="SelectionTool" parent="." instance=ExtResource( 2 )]
 
 [node name="DuplicateTool" parent="." instance=ExtResource( 3 )]
 
 [node name="TextureSelectonTool" parent="." instance=ExtResource( 1 )]
+
+[connection signal="toggled" from="VBoxContainer/TextureSelectionButton" to="." method="_on_TextureSelectionButton_toggled"]
+[connection signal="toggled" from="VBoxContainer/HBoxContainer/SelectionButton" to="." method="_on_SelectionButton_toggled"]
+[connection signal="toggled" from="VBoxContainer/HBoxContainer2/DuplicateButton" to="." method="_on_TextureButton_toggled"]

@@ -31,7 +31,8 @@ func _translate(source: Image, sourceRect: Rect2) -> Image:
 
 func _ready() -> void:
 	._ready()
-	isActive = true
+	isActive = false
+	isUnique = true
 
 func start(pos:Vector2) -> void:
 	posStart = pos

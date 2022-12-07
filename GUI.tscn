@@ -11,18 +11,31 @@ anchor_bottom = 1.0
 script = ExtResource( 4 )
 
 [node name="TextureWidget" parent="." instance=ExtResource( 1 )]
-anchor_right = 0.0
-margin_right = 398.0
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="AnimationWidget" parent="." instance=ExtResource( 2 )]
 anchor_left = 0.5
-anchor_right = 0.5
-margin_right = 442.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
 
 [node name="ToolbarWidget" parent="." instance=ExtResource( 3 )]
-anchor_right = 1.0
+anchor_left = 0.3
+anchor_top = 0.55
+anchor_right = 0.5
 anchor_bottom = 1.0
-margin_right = 0.0
-margin_bottom = -200.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
 
 [connection signal="frame_changed" from="TextureWidget" to="." method="_on_TextureWidget_frame_changed"]

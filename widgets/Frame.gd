@@ -2,6 +2,9 @@ extends CheckBox
 
 export var frameNumber: int = 1
 
+var duration: int = 200 #in ms
+
+
 signal frame_changed(num)
 
 func _ready() -> void:

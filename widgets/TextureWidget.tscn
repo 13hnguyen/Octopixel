@@ -8,16 +8,48 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="HBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+custom_constants/separation = 20
+alignment = 2
+
+[node name="Frames" type="VBoxContainer" parent="VBoxContainer"]
+margin_left = 1430.0
+margin_right = 1500.0
+margin_bottom = 1080.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Frames"]
+margin_right = 70.0
+margin_bottom = 20.0
+
+[node name="New Frame" type="Button" parent="VBoxContainer/Frames/HBoxContainer"]
+margin_right = 20.0
+margin_bottom = 20.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "+"
+
+[node name="Open" type="Button" parent="VBoxContainer/Frames/HBoxContainer"]
+margin_left = 24.0
+margin_right = 47.0
+margin_bottom = 20.0
+text = "O"
+
+[node name="Save" type="Button" parent="VBoxContainer/Frames/HBoxContainer"]
+margin_left = 51.0
+margin_right = 70.0
+margin_bottom = 20.0
+text = "S"
 
 [node name="TextureViewport" type="ViewportContainer" parent="VBoxContainer"]
-margin_right = 1024.0
-margin_bottom = 400.0
+margin_left = 1520.0
+margin_right = 1920.0
+margin_bottom = 1080.0
 
 [node name="Viewport" type="Viewport" parent="VBoxContainer/TextureViewport"]
 size = Vector2( 400, 400 )
+size_override_stretch = true
 handle_input_locally = false
 render_target_update_mode = 3
 gui_disable_input = true
@@ -25,38 +57,13 @@ gui_disable_input = true
 [node name="TextureCanvas" parent="VBoxContainer/TextureViewport/Viewport" instance=ExtResource( 1 )]
 unique_name_in_owner = true
 
-[node name="Frames" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 404.0
-margin_right = 1024.0
-margin_bottom = 404.0
-
-[node name="Open" type="Button" parent="VBoxContainer"]
-margin_top = 408.0
-margin_right = 1024.0
-margin_bottom = 428.0
-text = "Open New Texture"
-
-[node name="Save" type="Button" parent="VBoxContainer"]
-margin_top = 432.0
-margin_right = 1024.0
-margin_bottom = 452.0
-text = "Save Texture"
-
-[node name="New Frame" type="Button" parent="VBoxContainer"]
-margin_top = 456.0
-margin_right = 1024.0
-margin_bottom = 476.0
-focus_mode = 0
-enabled_focus_mode = 0
-text = "+"
-
 [node name="OpenFileDialog" type="FileDialog" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 48.0
+margin_left = 40.0
 margin_top = 40.0
-margin_right = -123.0
-margin_bottom = -46.0
+margin_right = -40.0
+margin_bottom = -40.0
 window_title = "Open File(s)"
 resizable = true
 dialog_text = "Open Files"
@@ -67,16 +74,16 @@ filters = PoolStringArray( "*.png" )
 [node name="SaveFileDialog" type="FileDialog" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 58.0
-margin_top = 42.0
-margin_right = -102.0
-margin_bottom = -96.0
+margin_left = 40.0
+margin_top = 40.0
+margin_right = -40.0
+margin_bottom = -40.0
 dialog_text = "Save File"
 access = 2
 
+[connection signal="pressed" from="VBoxContainer/Frames/HBoxContainer/New Frame" to="." method="_on_New_Frame_pressed"]
+[connection signal="pressed" from="VBoxContainer/Frames/HBoxContainer/Open" to="." method="_on_Open_pressed"]
+[connection signal="pressed" from="VBoxContainer/Frames/HBoxContainer/Save" to="." method="_on_Save_pressed"]
 [connection signal="frame_changed" from="VBoxContainer/TextureViewport/Viewport/TextureCanvas" to="." method="_on_TextureCanvas_frame_changed"]
-[connection signal="pressed" from="VBoxContainer/Open" to="." method="_on_Open_pressed"]
-[connection signal="pressed" from="VBoxContainer/Save" to="." method="_on_Save_pressed"]
-[connection signal="pressed" from="VBoxContainer/New Frame" to="." method="_on_New_Frame_pressed"]
 [connection signal="files_selected" from="OpenFileDialog" to="." method="_on_OpenFileDialog_files_selected"]
 [connection signal="files_selected" from="SaveFileDialog" to="." method="_on_SaveFileDialog_files_selected"]

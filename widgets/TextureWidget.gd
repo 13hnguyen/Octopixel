@@ -3,7 +3,7 @@ extends Control
 signal frame_changed(texture)
 
 onready var canvas: DefaultCanvas = $"%TextureCanvas"
-onready var frameBox: HBoxContainer = $VBoxContainer/Frames
+onready var frameBox: VBoxContainer = $VBoxContainer/Frames
 
 onready var openDialog: FileDialog = $OpenFileDialog
 onready var saveDialog: FileDialog = $SaveFileDialog
