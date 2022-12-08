@@ -1,9 +1,8 @@
-extends Tool
+extends DefaultTool
 
 var isPressedLeft:bool = false
 var directionLeft: Vector2 = Vector2.ZERO
 
-onready var selectionWindow: SelectionWindow = $SelectionWindow
 
 func _ready() -> void:
 	._ready()
@@ -15,6 +14,7 @@ func start(pos:Vector2) -> void:
 
 func expand(pos:Vector2) -> void:
 	startRect = Global.fix_rect(posStart, pos)
+	rect = startRect
 	canvas.change_selection(startRect)
 	imageBuffer = canvas.image.get_rect(startRect)
 

@@ -1,4 +1,4 @@
-extends Tool
+extends DefaultTool
 
 var targetCanvas: DefaultCanvas
 
@@ -8,7 +8,6 @@ var directionLeft: Vector2 = Vector2.ZERO
 var targetPosStart: Vector2
 var targetImageBuffer: Image
 
-onready var selectionWindow: SelectionWindow = $SelectionWindow
 
 func _translate(source: Image, sourceRect: Rect2) -> Image:
 	var sourceSize = canvas.image.get_size()

@@ -1,49 +1,16 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://tools/TextureSelectonTool.tscn" type="PackedScene" id=1]
 [ext_resource path="res://tools/SelectionTool.tscn" type="PackedScene" id=2]
 [ext_resource path="res://tools/DuplicateTool.tscn" type="PackedScene" id=3]
 [ext_resource path="res://widgets/ToolbarWidget.gd" type="Script" id=4]
+[ext_resource path="res://tools/ToolButton.gd" type="Script" id=5]
+[ext_resource path="res://tools/PaintTool.tscn" type="PackedScene" id=6]
 
 [node name="ToolbarWidget" type="Control"]
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 4 )
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-alignment = 1
-
-[node name="TextureSelectionButton" type="Button" parent="VBoxContainer"]
-margin_right = 40.0
-margin_bottom = 20.0
-toggle_mode = true
-text = "TS"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 24.0
-margin_right = 40.0
-margin_bottom = 44.0
-alignment = 2
-
-[node name="SelectionButton" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_left = 21.0
-margin_right = 40.0
-margin_bottom = 20.0
-text = "S"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 48.0
-margin_right = 40.0
-margin_bottom = 68.0
-alignment = 2
-
-[node name="DuplicateButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 18.0
-margin_right = 40.0
-margin_bottom = 20.0
-text = "D"
 
 [node name="SelectionTool" parent="." instance=ExtResource( 2 )]
 
@@ -51,6 +18,83 @@ text = "D"
 
 [node name="TextureSelectonTool" parent="." instance=ExtResource( 1 )]
 
-[connection signal="toggled" from="VBoxContainer/TextureSelectionButton" to="." method="_on_TextureSelectionButton_toggled"]
-[connection signal="toggled" from="VBoxContainer/HBoxContainer/SelectionButton" to="." method="_on_SelectionButton_toggled"]
-[connection signal="toggled" from="VBoxContainer/HBoxContainer2/DuplicateButton" to="." method="_on_TextureButton_toggled"]
+[node name="PaintTool" parent="." instance=ExtResource( 6 )]
+
+[node name="ColorPicker" type="ColorPicker" parent="."]
+visible = false
+anchor_top = 0.3
+anchor_right = 2.5
+anchor_bottom = 2.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = -2.0
+margin_bottom = -2.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_scale = Vector2( 0.4, 0.4 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 0.3
+margin_left = 100.0
+margin_top = 10.0
+margin_right = -100.0
+margin_bottom = -10.0
+alignment = 1
+
+[node name="TextureSelectionButton" type="Button" parent="VBoxContainer"]
+margin_top = 74.0
+margin_right = 1208.0
+margin_bottom = 94.0
+toggle_mode = true
+text = "TS"
+script = ExtResource( 5 )
+myToolPath = NodePath("../../TextureSelectonTool")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 98.0
+margin_right = 1208.0
+margin_bottom = 118.0
+alignment = 1
+
+[node name="PaintButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 582.0
+margin_right = 602.0
+margin_bottom = 20.0
+toggle_mode = true
+text = "P"
+script = ExtResource( 5 )
+myToolPath = NodePath("../../../PaintTool")
+isLeftHand = true
+
+[node name="SelectionButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 606.0
+margin_right = 625.0
+margin_bottom = 20.0
+toggle_mode = true
+text = "S"
+script = ExtResource( 5 )
+myToolPath = NodePath("../../../SelectionTool")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 122.0
+margin_right = 1208.0
+margin_bottom = 142.0
+alignment = 2
+
+[node name="DuplicateButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 1186.0
+margin_right = 1208.0
+margin_bottom = 20.0
+toggle_mode = true
+text = "D"
+script = ExtResource( 5 )
+myToolPath = NodePath("../../../DuplicateTool")
+
+[connection signal="change_button" from="VBoxContainer/TextureSelectionButton" to="." method="_change_tool"]
+[connection signal="change_button" from="VBoxContainer/HBoxContainer/PaintButton" to="." method="_change_tool"]
+[connection signal="change_button" from="VBoxContainer/HBoxContainer/SelectionButton" to="." method="_change_tool"]
+[connection signal="change_button" from="VBoxContainer/HBoxContainer2/DuplicateButton" to="." method="_change_tool"]

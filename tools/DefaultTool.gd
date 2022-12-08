@@ -1,6 +1,6 @@
 extends Control
 
-class_name Tool
+class_name DefaultTool
 
 onready var buffer: TextureRect = $Buffer
 
@@ -32,6 +32,13 @@ func _draw() -> void:
 	buffer.set_texture(textureBuffer)
 	buffer.rect_size = imageBuffer.get_size()
 	buffer.rect_scale = Vector2.ONE * 50
+
+func unselect() -> void:
+	isActive = false
+	isPressed = false
+
+func select() -> void:
+	isActive = true
 
 func start(pos: Vector2) -> void:
 	pass

@@ -1,31 +1,46 @@
 extends DefaultTool
 
+onready var colorPicker: ColorPicker
+
 var isPressedLeft:bool = false
 var directionLeft: Vector2 = Vector2.ZERO
-
+var chosenColor: Color = Color.transparent
 
 func _ready() -> void:
 	._ready()
 	isActive = false
+
+func select() -> void:
+	.select()
+	colorPicker.visible = true
+	colorPicker.connect("color_changed",self,"_on_ColorPicker_color_changed")
+
+func unselect() -> void:
+	.unselect()
+	colorPicker.visible = false
+
 
 func start(pos:Vector2) -> void:
 	posStart = pos
 	directionLeft = pos
 
 func expand(pos:Vector2) -> void:
-	rect = Global.fix_rect(posStart, pos)
-	canvas.change_selection(rect)
-	imageBuffer = canvas.image.get_rect(rect)
+	startRect = Global.fix_rect(posStart, pos)
+	rect = startRect
+	canvas.change_selection(startRect)
+	imageBuffer = canvas.image.get_rect(startRect)
 
 func moveManhattan(dir: Vector2) -> void:
-	rect.position += dir
-	canvas.change_selection(rect)
+	#rect.position += dir
+	#canvas.change_selection(rect)
+	pass
 
 
 func move(pos:Vector2) -> void:
 	var displace = pos-directionLeft
 	rect.position += displace
 	directionLeft += displace
+	apply()
 	canvas.change_selection(rect)
 
 func end() -> void:
@@ -37,7 +52,8 @@ func clear() -> void:
 	canvas.change_selection(rect)
 
 func apply() -> void:
-	canvas.image.blend_rect(imageBuffer,Rect2(Vector2.ZERO,canvas.image.get_size()), rect.position)
+	canvas.image.fill_rect(rect, chosenColor)
+	#canvas.image.blend_rect(imageBuffer,Rect2(Vector2.ZERO,canvas.image.get_size()), rect.position)
 	canvas.update()
 
 func _input(event: InputEvent) -> void:
@@ -86,3 +102,10 @@ func checkInput() -> void:
 		
 		if dir != Vector2.ZERO:
 			moveManhattan(dir)
+
+
+func _on_ColorPicker_color_changed(color: Color) -> void:
+	chosenColor = color
+	print(chosenColor)
+	
+	
