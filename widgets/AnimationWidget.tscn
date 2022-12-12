@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://widgets/AnimationCanvas.tscn" type="PackedScene" id=1]
+[ext_resource path="res://widgets/WidgetBackground.tscn" type="PackedScene" id=2]
 [ext_resource path="res://widgets/AnimationWidget.gd" type="Script" id=3]
 
 [node name="AnimationWidget" type="Control"]
@@ -9,16 +10,21 @@ anchor_bottom = 1.0
 rect_pivot_offset = Vector2( -450, -118 )
 script = ExtResource( 3 )
 
+[node name="WidgetBackground" parent="." instance=ExtResource( 2 )]
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+custom_constants/separation = 10
 
 [node name="AnimationViewport" type="ViewportContainer" parent="VBoxContainer"]
-margin_right = 600.0
-margin_bottom = 600.0
+margin_right = 790.0
+margin_bottom = 650.0
 
 [node name="Viewport" type="Viewport" parent="VBoxContainer/AnimationViewport"]
-size = Vector2( 600, 600 )
+size = Vector2( 790, 650 )
 handle_input_locally = false
 render_target_update_mode = 3
 gui_disable_input = true
@@ -27,9 +33,10 @@ gui_disable_input = true
 unique_name_in_owner = true
 
 [node name="Frames" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 604.0
-margin_right = 600.0
-margin_bottom = 672.0
+margin_top = 660.0
+margin_right = 790.0
+margin_bottom = 728.0
+custom_constants/separation = 30
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Frames"]
 margin_right = 23.0
@@ -77,9 +84,12 @@ margin_right = -109.0
 margin_bottom = -97.0
 dialog_text = "Save File"
 access = 2
+filters = PoolStringArray( "*.png" )
 
+[connection signal="item_rect_changed" from="." to="." method="_on_AnimationWidget_item_rect_changed"]
 [connection signal="pressed" from="VBoxContainer/Frames/VBoxContainer/New Frame" to="." method="_on_New_Frame_pressed"]
 [connection signal="pressed" from="VBoxContainer/Frames/VBoxContainer/Open" to="." method="_on_Open_pressed"]
 [connection signal="pressed" from="VBoxContainer/Frames/VBoxContainer/Save" to="." method="_on_Save_pressed"]
 [connection signal="files_selected" from="OpenFileDialog" to="." method="_on_OpenFileDialog_files_selected"]
+[connection signal="file_selected" from="SaveFileDialog" to="." method="_on_SaveFileDialog_file_selected"]
 [connection signal="files_selected" from="SaveFileDialog" to="." method="_on_SaveFileDialog_files_selected"]

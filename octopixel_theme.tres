@@ -1,0 +1,5 @@
+[gd_resource type="Theme" format=2]
+
+[resource]
+CheckBox/constants/check_vadjust = 20
+CheckBox/constants/hseparation = -15

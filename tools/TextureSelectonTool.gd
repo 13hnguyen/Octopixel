@@ -53,10 +53,13 @@ func move(pos:Vector2) -> void:
 	var displace = pos-directionLeft
 	rect.position += displace
 	directionLeft += displace
+	targetCanvas.change_selection(rect)
+	
 
 func end() -> void:
 	rect = startRect
 	rect.position = targetPosStart
+	
 	targetImageBuffer = _translate(imageBuffer, startRect)
 	update()
 
@@ -69,60 +72,72 @@ func clear() -> void:
 func apply() -> void:
 	if rect.position.x >= 0.0 and rect.position.y >= 0.0:
 		
-		targetCanvas.image.blend_rect(targetImageBuffer,Rect2(Vector2.ZERO,targetCanvas.image.get_size()), rect.position)
+		targetCanvas.image.blend_rect_mask(targetImageBuffer,targetImageBuffer,Rect2(Vector2.ZERO,targetCanvas.image.get_size()), rect.position)
 		targetCanvas.update()
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
-		if isPressed:
-			### RIGHT BUTTON MOVED ###
-			expand(canvas.mouse_coordinates())
-			#expandTarget(targetCanvas.mouse_coordinates())
-		elif isPressedLeft:
-			### LEFT BUTTON MOVED ###
-			move(targetCanvas.mouse_coordinates())
+	if !isActive:
+		return
+	if event is InputEventMouseMotion and event.relative and (isPressed or isPressedLeft):
+		isMouseMoving = true
+		return
 	
 
 func checkInput() -> void:
-	if canvas and targetCanvas and isActive:
-		### RIGHT BUTTON ###
-		if Input.is_action_just_pressed("right_click"):
-			var coord = canvas.mouse_coordinates()
+	if not canvas or not isActive:
+		return
+	### RIGHT BUTTON ###
+	if Input.is_action_just_pressed("right_click"):
+		var coord = canvas.mouse_coordinates()
+		if coord.x in range(canvas.get_size().x) and coord.y in range(canvas.get_size().y):
+			isPressed = true
+			apply()
+			start(coord)
+			
+			var otherCoord = targetCanvas.mouse_coordinates()
+			startTarget(otherCoord)
+
+	if Input.is_action_just_released("right_click") and isPressed:
+		isPressed = false
+		end()
+	
+	### LEFT BUTTON ###
+	if Input.is_action_just_pressed("left_click"):
+		var coord = targetCanvas.mouse_coordinates()
+		var otherCoord = targetCanvas.mouse_coordinates()
+		
+		isPressedLeft = true
+		
+		if !startRect.has_point(coord):
+			
 			if coord.x in range(canvas.get_size().x) and coord.y in range(canvas.get_size().y):
-				isPressed = true
 				apply()
 				start(coord)
-				
-				var otherCoord = targetCanvas.mouse_coordinates()
 				startTarget(otherCoord)
-	
-		if Input.is_action_just_released("right_click") and isPressed:
-			isPressed = false
-			end()
-		
-		### LEFT BUTTON ###
-		if Input.is_action_just_pressed("left_click"):
-			var coord = canvas.mouse_coordinates()
-			
-			isPressedLeft = true
-			if !startRect.has_point(coord):
-				
-				if coord.x in range(canvas.get_size().x) and coord.y in range(canvas.get_size().y):
-					apply()
-					start(coord)
-					var otherCoord = targetCanvas.mouse_coordinates()
-					startTarget(otherCoord)
-					expand(coord)
-					end()
+				expand(coord)
+				end()
 			else:
-				var otherCoord = targetCanvas.mouse_coordinates()
+				directionLeft = otherCoord
+		else:
+			if coord.x in range(canvas.get_size().x) and coord.y in range(canvas.get_size().y):
+				directionLeft = otherCoord
+			else:
 				startTarget(otherCoord)
 				end()
+
+	if Input.is_action_just_released("left_click"):
+		isPressedLeft = false
+		var otherCoord = targetCanvas.mouse_coordinates()
+		move(otherCoord)
+		if otherCoord.x in range(targetCanvas.get_size().x) and otherCoord.y in range(targetCanvas.get_size().y):
+			apply()
 	
-		if Input.is_action_just_released("left_click"):
-			isPressedLeft = false
-			var otherCoord = targetCanvas.mouse_coordinates()
-			move(otherCoord)
-			if otherCoord.x in range(targetCanvas.get_size().x) and otherCoord.y in range(targetCanvas.get_size().y):
-				apply()
-		
+	### MOUSE MOVEMENT ###
+	if isMouseMoving:
+		if isPressed:
+			### RIGHT BUTTON MOVED ###
+			expand(canvas.mouse_coordinates())
+		elif isPressedLeft:
+			### LEFT BUTTON MOVED ###
+			move(targetCanvas.mouse_coordinates())
+		isMouseMoving = false

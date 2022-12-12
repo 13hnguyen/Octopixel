@@ -16,7 +16,7 @@ onready var canvas: TextureRect = $"%Canvas"
 onready var background: TextureRect = $Background
 onready var camera: Camera2D = $Camera2D
 
-onready var selection: ColorRect = $Selection
+onready var selection: TextureRect = $Selection
 
 # Image
 var image: Image
@@ -34,6 +34,8 @@ var zoomFactor: int = 100
 func _ready() -> void:
 	initialize_texture()
 	update()
+	
+	update_selection_size()
 	
 	selectionImage = Image.new()
 	selectionImage.copy_from(image)
@@ -82,11 +84,11 @@ func mouse_coordinates() -> Vector2:
 	var canvasSize = canvas.rect_size
 	var imageSize = image.get_size()
 	
+	
 	if canvasSize.x < canvasSize.y:
 		coord = imageSize.x*coord/canvasSize.x
 	else:
 		coord = imageSize.y*coord/canvasSize.y
-	
 	return coord.floor()
 
 func new_frame() -> void:
@@ -97,11 +99,21 @@ func new_frame() -> void:
 func change_frame(index: int) -> void:
 	image = frames[index]
 	currentFrame = index
+	update_selection_size()
 	update_image()
 	update()
 
-func change_selection(newRect: Rect2) -> void:
+func update_selection_size():
+	var tempImage = Image.new()
+	tempImage.copy_from(image)
+	tempImage.fill(Color(1,1,1,1))
 	
+	var tempTexture = ImageTexture.new()
+	tempTexture.create_from_image(tempImage,3)
+	
+	selection.set_texture(tempTexture)
+	
+func change_selection(newRect: Rect2) -> void:
 	selectionImage.copy_from(image)
 	selectionImage.fill(Color(0,0,0,0))
 	selectionImage.fill_rect(newRect, Color(1,1,1,1))

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://tools/TextureSelectonTool.tscn" type="PackedScene" id=1]
 [ext_resource path="res://tools/SelectionTool.tscn" type="PackedScene" id=2]
@@ -6,29 +6,41 @@
 [ext_resource path="res://widgets/ToolbarWidget.gd" type="Script" id=4]
 [ext_resource path="res://tools/ToolButton.gd" type="Script" id=5]
 [ext_resource path="res://tools/PaintTool.tscn" type="PackedScene" id=6]
+[ext_resource path="res://widgets/WidgetBackground.tscn" type="PackedScene" id=7]
 
 [node name="ToolbarWidget" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 4 )
 
-[node name="SelectionTool" parent="." instance=ExtResource( 2 )]
+[node name="WidgetBackground" parent="." instance=ExtResource( 7 )]
 
-[node name="DuplicateTool" parent="." instance=ExtResource( 3 )]
+[node name="ToolShared" type="Node" parent="."]
 
-[node name="TextureSelectonTool" parent="." instance=ExtResource( 1 )]
+[node name="TextureSelectonTool" parent="ToolShared" instance=ExtResource( 1 )]
+anchor_bottom = 1.0
 
-[node name="PaintTool" parent="." instance=ExtResource( 6 )]
+[node name="ToolTexture" type="Node" parent="."]
+
+[node name="PaintTool" parent="ToolTexture" instance=ExtResource( 6 )]
+anchor_bottom = 1.0
+
+[node name="ToolAnimation" type="Node" parent="."]
+
+[node name="SelectionTool" parent="ToolAnimation" instance=ExtResource( 2 )]
+anchor_bottom = 1.0
+
+[node name="DuplicateTool" parent="ToolAnimation" instance=ExtResource( 3 )]
+anchor_bottom = 1.0
 
 [node name="ColorPicker" type="ColorPicker" parent="."]
 visible = false
-anchor_top = 0.3
-anchor_right = 2.5
-anchor_bottom = 2.0
+anchor_right = 0.3
+anchor_bottom = 0.1
 margin_left = 4.0
 margin_top = 4.0
-margin_right = -2.0
-margin_bottom = -2.0
+margin_right = 356.0
+margin_bottom = 510.0
 grow_horizontal = 0
 grow_vertical = 0
 rect_scale = Vector2( 0.4, 0.4 )
@@ -36,65 +48,89 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 0.3
-margin_left = 100.0
+[node name="SharedTools" type="ColorRect" parent="."]
+anchor_left = 0.4
+anchor_right = 0.6
+anchor_bottom = 1.0
+margin_left = 5.0
 margin_top = 10.0
-margin_right = -100.0
+margin_right = -10.0
 margin_bottom = -10.0
+color = Color( 0.333333, 0.219608, 0.356863, 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SharedTools"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 alignment = 1
 
-[node name="TextureSelectionButton" type="Button" parent="VBoxContainer"]
-margin_top = 74.0
-margin_right = 1208.0
-margin_bottom = 94.0
+[node name="TextureSelectionButton" type="Button" parent="SharedTools/VBoxContainer"]
+margin_top = 376.0
+margin_right = 266.0
+margin_bottom = 396.0
 toggle_mode = true
 text = "TS"
 script = ExtResource( 5 )
-myToolPath = NodePath("../../TextureSelectonTool")
+myToolPath = NodePath("../../../ToolShared/TextureSelectonTool")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 98.0
-margin_right = 1208.0
-margin_bottom = 118.0
+[node name="TextureTools" type="ColorRect" parent="."]
+anchor_left = 0.6
+anchor_right = 0.8
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+color = Color( 0.333333, 0.219608, 0.356863, 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureTools"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 alignment = 1
 
-[node name="PaintButton" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_left = 582.0
-margin_right = 602.0
-margin_bottom = 20.0
+[node name="PaintButton" type="Button" parent="TextureTools/VBoxContainer"]
+margin_top = 376.0
+margin_right = 266.0
+margin_bottom = 396.0
 toggle_mode = true
 text = "P"
 script = ExtResource( 5 )
-myToolPath = NodePath("../../../PaintTool")
+myToolPath = NodePath("../../../ToolTexture/PaintTool")
 isLeftHand = true
 
-[node name="SelectionButton" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_left = 606.0
-margin_right = 625.0
-margin_bottom = 20.0
+[node name="AnimationTools" type="ColorRect" parent="."]
+anchor_left = 0.8
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+color = Color( 0.333333, 0.219608, 0.356863, 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AnimationTools"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+
+[node name="SelectionButton" type="Button" parent="AnimationTools/VBoxContainer"]
+margin_top = 364.0
+margin_right = 266.0
+margin_bottom = 384.0
 toggle_mode = true
 text = "S"
 script = ExtResource( 5 )
-myToolPath = NodePath("../../../SelectionTool")
+myToolPath = NodePath("../../../ToolAnimation/SelectionTool")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 122.0
-margin_right = 1208.0
-margin_bottom = 142.0
-alignment = 2
-
-[node name="DuplicateButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 1186.0
-margin_right = 1208.0
-margin_bottom = 20.0
+[node name="DuplicateButton" type="Button" parent="AnimationTools/VBoxContainer"]
+margin_top = 388.0
+margin_right = 266.0
+margin_bottom = 408.0
 toggle_mode = true
 text = "D"
 script = ExtResource( 5 )
-myToolPath = NodePath("../../../DuplicateTool")
+myToolPath = NodePath("../../../ToolAnimation/DuplicateTool")
 
-[connection signal="change_button" from="VBoxContainer/TextureSelectionButton" to="." method="_change_tool"]
-[connection signal="change_button" from="VBoxContainer/HBoxContainer/PaintButton" to="." method="_change_tool"]
-[connection signal="change_button" from="VBoxContainer/HBoxContainer/SelectionButton" to="." method="_change_tool"]
-[connection signal="change_button" from="VBoxContainer/HBoxContainer2/DuplicateButton" to="." method="_change_tool"]
+[connection signal="change_button" from="SharedTools/VBoxContainer/TextureSelectionButton" to="." method="_change_tool"]
+[connection signal="change_button" from="TextureTools/VBoxContainer/PaintButton" to="." method="_change_tool"]
+[connection signal="change_button" from="AnimationTools/VBoxContainer/SelectionButton" to="." method="_change_tool"]
+[connection signal="change_button" from="AnimationTools/VBoxContainer/DuplicateButton" to="." method="_change_tool"]

@@ -13,8 +13,4 @@ func _ready() -> void:
 
 
 func _button_clicked() -> void:
-	print("hi")
 	emit_signal("change_button", true, isLeftHand, myTool.isUnique, myTool, self)
-
-
-

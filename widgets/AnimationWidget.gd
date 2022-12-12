@@ -1,12 +1,14 @@
 extends Control
 
+signal frame_changed(texture)
+
 onready var canvas: DefaultCanvas = $"%AnimationCanvas"
 onready var frameBox: HBoxContainer = $VBoxContainer/Frames
 
 onready var openDialog: FileDialog = $OpenFileDialog
 onready var saveDialog: FileDialog = $SaveFileDialog
 
-onready var emptyFrame: PackedScene = preload("res://widgets/Frame.tscn")
+onready var emptyFrame: PackedScene = preload("res://widgets/FrameVertical.tscn")
 
 var currentFrame: int = 0
 
@@ -15,14 +17,15 @@ var frames: Array
 func _ready() -> void:
 	canvas.new_frame()
 	_create_Frame_check()
+	_on_AnimationWidget_item_rect_changed()
 
 func update_texture(imgTexture: ImageTexture):
 	canvas.update_texture(imgTexture)
 
 
 func _on_frame_changed(num: int) -> void:
-	frames[currentFrame].pressed = 0
-	frames[num].pressed = 1
+	frames[currentFrame].setPressed(0)
+	frames[num].setPressed(1)
 	canvas.change_frame(num)
 	currentFrame = num
 
@@ -57,4 +60,13 @@ func _on_OpenFileDialog_files_selected(paths: PoolStringArray) -> void:
 
 
 func _on_SaveFileDialog_files_selected(paths: PoolStringArray) -> void:
-	pass # Replace with function body.
+	for path in paths:
+		canvas.image.save_png(path)
+
+
+func _on_AnimationWidget_item_rect_changed() -> void:
+	$VBoxContainer/AnimationViewport/Viewport.size.y = rect_size.y - 150
+	$VBoxContainer/AnimationViewport/Viewport.size.x = rect_size.x -20
+
+func _on_SaveFileDialog_file_selected(path: String) -> void:
+	canvas.image.save_png(path)

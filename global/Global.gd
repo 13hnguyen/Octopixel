@@ -4,7 +4,7 @@ var ZOOM_MIN:int = 1
 var ZOOM_MAX:int = 500
 
 func _ready() -> void:
-	print("hello")
+	pass
 
 
 func fix_rect(a: Vector2, b: Vector2) -> Rect2:

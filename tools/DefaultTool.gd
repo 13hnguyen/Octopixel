@@ -16,6 +16,7 @@ var posEnd: Vector2
 
 var isActive: bool = false
 var isPressed: bool = false
+var isMouseMoving: bool = false
 
 var isUnique: bool = false
 
@@ -36,6 +37,11 @@ func _draw() -> void:
 func unselect() -> void:
 	isActive = false
 	isPressed = false
+
+func clear() -> void:
+	rect = Rect2(Vector2.ZERO, Vector2.ZERO)
+	startRect = Rect2(Vector2.ZERO, Vector2.ZERO)
+	
 
 func select() -> void:
 	isActive = true
