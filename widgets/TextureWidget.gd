@@ -99,5 +99,6 @@ func clear(sizeVector: Vector2) -> void:
 	for frame in frames:
 		frame.queue_free()
 	frames = []
+	currentFrame = 0
 	canvas.new_frame()
 	_create_Frame_check()

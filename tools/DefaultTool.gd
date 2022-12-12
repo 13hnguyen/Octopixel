@@ -37,6 +37,7 @@ func _draw() -> void:
 func unselect() -> void:
 	isActive = false
 	isPressed = false
+	clear()
 
 func clear() -> void:
 	rect = Rect2(Vector2.ZERO, Vector2.ZERO)

@@ -67,10 +67,10 @@ gui_disable_input = true
 unique_name_in_owner = true
 
 [node name="Zoom" parent="." instance=ExtResource( 4 )]
-anchor_left = 0.767045
-anchor_top = 0.814394
-anchor_right = 0.838778
-anchor_bottom = 0.917929
+anchor_left = 0.0120739
+anchor_top = 0.864899
+anchor_right = 0.0838069
+anchor_bottom = 0.968434
 __meta__ = {
 "_edit_use_anchors_": true
 }

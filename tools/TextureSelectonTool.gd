@@ -22,8 +22,8 @@ func _translate(source: Image, sourceRect: Rect2) -> Image:
 	
 	for u in range(sourceRectSize.x):
 		for v in range(sourceRectSize.y):
-			newU = (u+sourceRectPos.x)/sourceSize.x
-			newV = (v+sourceRectPos.y)/sourceSize.y
+			newU = (u+sourceRectPos.x+1)/sourceSize.x
+			newV = (v+sourceRectPos.y+1)/sourceSize.y
 			translatedImage.set_pixel(u, v, Color(newU, newV, 0, 1) )
 	translatedImage.unlock()
 	return translatedImage

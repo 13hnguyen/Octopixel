@@ -68,13 +68,8 @@ func _clearRight() -> void:
 			currentToolLeft = {}
 
 func _change_tool(button_pressed: bool, leftHand: bool, isUnique: bool, toolObject: DefaultTool, button: Button) -> void:
-	if isUnique:
-		_clearLeft()
-		_clearRight()
-	elif leftHand:
-		_clearLeft()
-	else:
-		_clearRight()
+	_clearLeft()
+	_clearRight()
 
 	if !button_pressed:
 		return

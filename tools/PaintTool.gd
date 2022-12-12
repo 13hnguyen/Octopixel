@@ -43,8 +43,8 @@ func move(pos:Vector2) -> void:
 
 
 func moveLine(pos: Vector2) -> void:
-	move(pos)
-	return
+	#move(pos)
+	#return
 	var startPoint = directionLeft
 	var endPoint = pos
 	

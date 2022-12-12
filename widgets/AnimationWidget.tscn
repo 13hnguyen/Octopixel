@@ -63,10 +63,10 @@ margin_bottom = 68.0
 text = "S"
 
 [node name="Zoom" parent="." instance=ExtResource( 4 )]
-anchor_left = 0.0191761
-anchor_top = 0.717172
-anchor_right = 0.087358
-anchor_bottom = 0.825758
+anchor_left = 0.857244
+anchor_top = 0.863636
+anchor_right = 0.941051
+anchor_bottom = 0.972222
 __meta__ = {
 "_edit_use_anchors_": true
 }
