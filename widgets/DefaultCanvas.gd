@@ -10,6 +10,7 @@ class_name DefaultCanvas
 
 #signals
 signal frame_changed
+signal frame_number_modified
 
 # components
 onready var canvas: TextureRect = $"%Canvas"
@@ -28,8 +29,6 @@ var currentFrame: int = 0
 var selectionImage: Image
 var selectionTexture: ImageTexture
 
-# variables
-var zoomFactor: int = 100
 
 func _ready() -> void:
 	initialize_texture()
@@ -42,11 +41,6 @@ func _ready() -> void:
 	
 	selectionTexture = ImageTexture.new()
 	#$SelectionWindow.setCanvas(self)
-
-func zoom(factor: int) -> void:
-	if factor != -1:
-		zoomFactor = clamp(factor, Global.ZOOM_MIN, Global.ZOOM_MAX)
-	camera.zoom = Vector2.ONE * (zoomFactor/100)
 
 func initialize_texture() -> void:
 	imageTexture = ImageTexture.new()
@@ -67,6 +61,7 @@ func load_frame(path:String) -> void:
 	imgTexture.load(path)
 	var img = imgTexture.get_data()
 	frames.append(img)
+	emit_signal("frame_number_modified")
 
 func _draw() -> void:
 	update_image()

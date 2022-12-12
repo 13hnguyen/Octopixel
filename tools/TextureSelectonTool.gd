@@ -17,13 +17,13 @@ func _translate(source: Image, sourceRect: Rect2) -> Image:
 	var newU: float
 	var newV: float
 	translatedImage.copy_from(source)
-	
+	translatedImage.fill(Color.transparent)
 	translatedImage.lock()
 	
 	for u in range(sourceRectSize.x):
 		for v in range(sourceRectSize.y):
-			newU = (u+sourceRectPos.x+0.5)/sourceSize.x
-			newV = (v+sourceRectPos.y+0.5)/sourceSize.y
+			newU = (u+sourceRectPos.x)/sourceSize.x
+			newV = (v+sourceRectPos.y)/sourceSize.y
 			translatedImage.set_pixel(u, v, Color(newU, newV, 0, 1) )
 	translatedImage.unlock()
 	return translatedImage

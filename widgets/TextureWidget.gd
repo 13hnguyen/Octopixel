@@ -8,6 +8,9 @@ onready var frameBox: VBoxContainer = $VBoxContainer/Frames
 onready var openDialog: FileDialog = $OpenFileDialog
 onready var saveDialog: FileDialog = $SaveFileDialog
 
+onready var zoom: Control = $Zoom
+
+
 onready var emptyFrame: PackedScene = preload("res://widgets/FrameHorizontal.tscn")
 
 var currentFrame: int = 0
@@ -18,6 +21,7 @@ func _ready() -> void:
 	canvas.new_frame()
 	_create_Frame_check()
 	_on_TextureWidget_item_rect_changed()
+	zoom.camera = canvas.camera
 
 func update_texture(imgTexture: ImageTexture):
 	canvas.update_texture(imgTexture)
@@ -78,3 +82,22 @@ func _on_TextureWidget_item_rect_changed() -> void:
 
 func _on_SaveFileDialog_file_selected(path: String) -> void:
 	canvas.image.save_png(path)
+
+func clear(sizeVector: Vector2) -> void:
+	canvas.image.create(sizeVector.x, sizeVector.y, false, Image.FORMAT_RGBA8)
+	canvas.image.lock()
+	for i in range(sizeVector.x):
+		for j in range(sizeVector.y):
+			var i_ratio = i/(sizeVector.x)
+			var j_ratio = j/(sizeVector.y)
+			var b = j%2
+			canvas.image.set_pixel(i, j, Color( i_ratio,j_ratio,b, 1.0))
+	canvas.image.unlock()
+	canvas.frames = []
+	canvas.currentFrame = 0
+	
+	for frame in frames:
+		frame.queue_free()
+	frames = []
+	canvas.new_frame()
+	_create_Frame_check()

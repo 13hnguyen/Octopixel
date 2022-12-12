@@ -1,6 +1,7 @@
 extends Control
 
 signal frame_changed(texture)
+signal frame_number_modified()
 
 onready var canvas: DefaultCanvas = $"%AnimationCanvas"
 onready var frameBox: HBoxContainer = $VBoxContainer/Frames
@@ -10,6 +11,8 @@ onready var saveDialog: FileDialog = $SaveFileDialog
 
 onready var emptyFrame: PackedScene = preload("res://widgets/FrameVertical.tscn")
 
+onready var zoom: Control = $Zoom
+
 var currentFrame: int = 0
 
 var frames: Array
@@ -18,6 +21,7 @@ func _ready() -> void:
 	canvas.new_frame()
 	_create_Frame_check()
 	_on_AnimationWidget_item_rect_changed()
+	zoom.camera = canvas.camera
 
 func update_texture(imgTexture: ImageTexture):
 	canvas.update_texture(imgTexture)
@@ -70,3 +74,17 @@ func _on_AnimationWidget_item_rect_changed() -> void:
 
 func _on_SaveFileDialog_file_selected(path: String) -> void:
 	canvas.image.save_png(path)
+
+
+func _on_AnimationCanvas_frame_number_modified() -> void:
+	emit_signal("frame_number_modified")
+
+func clear(sizeVector: Vector2) -> void:
+	canvas.image.create(sizeVector.x, sizeVector.y, false, Image.FORMAT_RGBA8)
+	canvas.frames = []
+	canvas.currentFrame = 0
+	for frame in frames:
+		frame.queue_free()
+	frames = []
+	canvas.new_frame()
+	_create_Frame_check()

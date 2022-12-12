@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://widgets/AnimationCanvas.tscn" type="PackedScene" id=1]
 [ext_resource path="res://widgets/WidgetBackground.tscn" type="PackedScene" id=2]
 [ext_resource path="res://widgets/AnimationWidget.gd" type="Script" id=3]
+[ext_resource path="res://widgets/Zoom.tscn" type="PackedScene" id=4]
 
 [node name="AnimationWidget" type="Control"]
 anchor_right = 1.0
@@ -20,11 +21,11 @@ margin_bottom = -10.0
 custom_constants/separation = 10
 
 [node name="AnimationViewport" type="ViewportContainer" parent="VBoxContainer"]
-margin_right = 790.0
+margin_right = 650.0
 margin_bottom = 650.0
 
 [node name="Viewport" type="Viewport" parent="VBoxContainer/AnimationViewport"]
-size = Vector2( 790, 650 )
+size = Vector2( 650, 650 )
 handle_input_locally = false
 render_target_update_mode = 3
 gui_disable_input = true
@@ -34,7 +35,7 @@ unique_name_in_owner = true
 
 [node name="Frames" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 660.0
-margin_right = 790.0
+margin_right = 650.0
 margin_bottom = 728.0
 custom_constants/separation = 30
 
@@ -60,6 +61,15 @@ margin_top = 48.0
 margin_right = 23.0
 margin_bottom = 68.0
 text = "S"
+
+[node name="Zoom" parent="." instance=ExtResource( 4 )]
+anchor_left = 0.0191761
+anchor_top = 0.717172
+anchor_right = 0.087358
+anchor_bottom = 0.825758
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="OpenFileDialog" type="FileDialog" parent="."]
 anchor_right = 1.0
@@ -87,6 +97,7 @@ access = 2
 filters = PoolStringArray( "*.png" )
 
 [connection signal="item_rect_changed" from="." to="." method="_on_AnimationWidget_item_rect_changed"]
+[connection signal="frame_number_modified" from="VBoxContainer/AnimationViewport/Viewport/AnimationCanvas" to="." method="_on_AnimationCanvas_frame_number_modified"]
 [connection signal="pressed" from="VBoxContainer/Frames/VBoxContainer/New Frame" to="." method="_on_New_Frame_pressed"]
 [connection signal="pressed" from="VBoxContainer/Frames/VBoxContainer/Open" to="." method="_on_Open_pressed"]
 [connection signal="pressed" from="VBoxContainer/Frames/VBoxContainer/Save" to="." method="_on_Save_pressed"]

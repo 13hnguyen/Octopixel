@@ -12,11 +12,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 4 )
 
-[node name="PreviewWidget" parent="." instance=ExtResource( 6 )]
-
-[node name="NavbarWidget" parent="." instance=ExtResource( 5 )]
-anchor_bottom = 0.03
-
 [node name="TextureWidget" parent="." instance=ExtResource( 1 )]
 anchor_top = 0.03
 anchor_right = 0.4
@@ -42,4 +37,17 @@ margin_top = 10.0
 margin_right = -10.0
 margin_bottom = -10.0
 
+[node name="PreviewWidget" parent="." instance=ExtResource( 6 )]
+anchor_left = 0.676136
+anchor_top = 0.583333
+anchor_right = 0.963136
+anchor_bottom = 0.904333
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="NavbarWidget" parent="." instance=ExtResource( 5 )]
+anchor_bottom = 0.03
+
 [connection signal="frame_changed" from="TextureWidget" to="." method="_on_TextureWidget_frame_changed"]
+[connection signal="frame_number_modified" from="AnimationWidget" to="." method="_on_AnimationWidget_frame_number_modified"]
