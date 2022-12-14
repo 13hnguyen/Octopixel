@@ -52,11 +52,13 @@ func _input(event: InputEvent) -> void:
 func checkInput() -> void:
 	if not canvas or not isActive:
 		return
+	
+	if Input.is_action_just_pressed("undo"):
+		.undo()
 
 	### RIGHT BUTTON ###
 	if Input.is_action_just_pressed("right_click"):
 		isPressed = true
-		apply()
 		start(canvas.mouse_coordinates())
 
 	if Input.is_action_just_released("right_click"):
@@ -80,6 +82,7 @@ func checkInput() -> void:
 		var coord = canvas.mouse_coordinates()
 		apply()
 		end()
+		save()
 	
 	### ARROWS ###
 	var dir: Vector2

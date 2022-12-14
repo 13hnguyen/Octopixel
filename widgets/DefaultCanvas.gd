@@ -29,6 +29,8 @@ var currentFrame: int = 0
 var selectionImage: Image
 var selectionTexture: ImageTexture
 
+var backgroundImage: Image = Image.new()
+var backgroundTexture: ImageTexture = ImageTexture.new()
 
 func _ready() -> void:
 	initialize_texture()
@@ -46,6 +48,13 @@ func initialize_texture() -> void:
 	imageTexture = ImageTexture.new()
 	load_image("")
 
+func loadBackground() -> void:
+	backgroundImage.copy_from(image)
+	backgroundImage.fill(Color.white)
+	backgroundTexture.create_from_image(backgroundImage)
+	background.set_texture(backgroundTexture)
+	
+	background.get_material().set_shader_param("size",backgroundImage.get_size())
 
 func load_image(path: String) -> void:
 	if path:
@@ -78,9 +87,9 @@ func mouse_coordinates() -> Vector2:
 	var coord = canvas.get_local_mouse_position()
 	var canvasSize = canvas.rect_size
 	var imageSize = image.get_size()
+	print(coord, canvasSize,imageSize)
 	
-	
-	if canvasSize.x < canvasSize.y:
+	if imageSize.x < imageSize.y:
 		coord = imageSize.x*coord/canvasSize.x
 	else:
 		coord = imageSize.y*coord/canvasSize.y

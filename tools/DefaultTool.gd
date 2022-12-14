@@ -20,6 +20,8 @@ var isMouseMoving: bool = false
 
 var isUnique: bool = false
 
+var previousImages: Array = []
+
 func _ready() -> void:
 	viewport = get_viewport()
 	imageBuffer = Image.new()
@@ -42,10 +44,30 @@ func unselect() -> void:
 func clear() -> void:
 	rect = Rect2(Vector2.ZERO, Vector2.ZERO)
 	startRect = Rect2(Vector2.ZERO, Vector2.ZERO)
-	
 
 func select() -> void:
 	isActive = true
+
+func save() -> void:
+	var imageTemp = Image.new()
+	imageTemp.copy_from(canvas.image)
+	
+	previousImages.push_front(imageTemp)
+	
+	while previousImages.size() > Global.MAX_IMAGE_BUFFER:
+		imageTemp = previousImages.pop_back()
+
+func undo() -> void:
+	if previousImages.size() < 2:
+		clear()
+		return
+	var imageTemp = previousImages.pop_front()
+	loadImage()
+	clear()
+
+func loadImage() -> void:
+	canvas.image.copy_from(previousImages[0])
+	canvas.update()
 
 func start(pos: Vector2) -> void:
 	pass

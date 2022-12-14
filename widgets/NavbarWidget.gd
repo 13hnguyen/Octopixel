@@ -8,7 +8,6 @@ func _on_New_pressed() -> void:
 	$CanvasSize.visible = true
 
 func _on_CanvasSize_set_size(textureSize, animationSize) -> void:
-	print(textureSize,animationSize)
 	textureCanvas.clear(textureSize)
 	animationCanvas.clear(animationSize)
 	

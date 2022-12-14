@@ -83,6 +83,14 @@ func clear(sizeVector: Vector2) -> void:
 	canvas.image.create(sizeVector.x, sizeVector.y, false, Image.FORMAT_RGBA8)
 	canvas.frames = []
 	canvas.currentFrame = 0
+	
+	canvas.loadBackground() 
+	
+	if sizeVector.x < sizeVector.y:
+		canvas.rect_min_size.y = 700*sizeVector.y/sizeVector.x
+	else:
+		canvas.rect_min_size.x = 700*sizeVector.x/sizeVector.y
+	
 	for frame in frames:
 		frame.queue_free()
 	frames = []

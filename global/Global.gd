@@ -3,6 +3,9 @@ extends Node
 var ZOOM_MIN:int = 1
 var ZOOM_MAX:int = 500
 
+var MAX_IMAGE_BUFFER:int = 10
+
+
 func _ready() -> void:
 	pass
 

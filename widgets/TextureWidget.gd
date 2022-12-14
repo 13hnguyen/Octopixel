@@ -96,6 +96,8 @@ func clear(sizeVector: Vector2) -> void:
 	canvas.frames = []
 	canvas.currentFrame = 0
 	
+	canvas.loadBackground() 
+	
 	for frame in frames:
 		frame.queue_free()
 	frames = []

@@ -75,63 +75,81 @@ func apply() -> void:
 		targetCanvas.image.blend_rect_mask(targetImageBuffer,targetImageBuffer,Rect2(Vector2.ZERO,targetCanvas.image.get_size()), rect.position)
 		targetCanvas.update()
 
+func save() -> void:
+	var imageTemp = Image.new()
+	imageTemp.copy_from(targetCanvas.image)
+	
+	previousImages.push_front(imageTemp)
+	
+	while previousImages.size() > Global.MAX_IMAGE_BUFFER:
+		imageTemp = previousImages.pop_back()
+
+func loadImage() -> void:
+	targetCanvas.image.copy_from(previousImages[0])
+	targetCanvas.update()
+
 func _input(event: InputEvent) -> void:
 	if !isActive:
 		return
 	if event is InputEventMouseMotion and event.relative and (isPressed or isPressedLeft):
 		isMouseMoving = true
 		return
-	
 
-func checkInput() -> void:
-	if not canvas or not isActive:
-		return
+func checkInputTexture(coord:Vector2, otherCoord:Vector2) -> void:
 	### RIGHT BUTTON ###
 	if Input.is_action_just_pressed("right_click"):
-		var coord = canvas.mouse_coordinates()
-		if coord.x in range(canvas.get_size().x) and coord.y in range(canvas.get_size().y):
-			isPressed = true
-			apply()
-			start(coord)
-			
-			var otherCoord = targetCanvas.mouse_coordinates()
-			startTarget(otherCoord)
+		isPressed = true
+		start(coord)
+		startTarget(otherCoord)
 
 	if Input.is_action_just_released("right_click") and isPressed:
 		isPressed = false
 		end()
 	
-	### LEFT BUTTON ###
 	if Input.is_action_just_pressed("left_click"):
-		var coord = targetCanvas.mouse_coordinates()
-		var otherCoord = targetCanvas.mouse_coordinates()
-		
 		isPressedLeft = true
 		
 		if !startRect.has_point(coord):
-			
-			if coord.x in range(canvas.get_size().x) and coord.y in range(canvas.get_size().y):
-				apply()
-				start(coord)
-				startTarget(otherCoord)
-				expand(coord)
-				end()
-			else:
-				directionLeft = otherCoord
+			start(coord)
+			startTarget(otherCoord)
+			expand(coord)
+			end()
 		else:
-			if coord.x in range(canvas.get_size().x) and coord.y in range(canvas.get_size().y):
-				directionLeft = otherCoord
-			else:
-				startTarget(otherCoord)
-				end()
+			directionLeft = otherCoord
+
+func checkInputAnimation(coord:Vector2, otherCoord:Vector2) -> void:
+	### LEFT BUTTON ###
+	if Input.is_action_just_pressed("left_click"):
+		isPressedLeft = true
+		
+		directionLeft = targetPosStart
+		rect.position = targetPosStart
+		
+		move(otherCoord)
+		print("pressed: ", targetPosStart, directionLeft)
 
 	if Input.is_action_just_released("left_click"):
+		
+		print("released: ", targetPosStart, directionLeft)
+		
+		
 		isPressedLeft = false
-		var otherCoord = targetCanvas.mouse_coordinates()
 		move(otherCoord)
-		if otherCoord.x in range(targetCanvas.get_size().x) and otherCoord.y in range(targetCanvas.get_size().y):
-			apply()
-	
+		
+		apply()
+		save()
+
+func checkInput() -> void:
+	if not canvas or not isActive:
+		return
+		
+	if Input.is_action_just_pressed("undo"):
+		.undo()
+
+
+	var coord = canvas.mouse_coordinates()
+	var otherCoord = targetCanvas.mouse_coordinates()
+		
 	### MOUSE MOVEMENT ###
 	if isMouseMoving:
 		if isPressed:
@@ -141,3 +159,12 @@ func checkInput() -> void:
 			### LEFT BUTTON MOVED ###
 			move(targetCanvas.mouse_coordinates())
 		isMouseMoving = false
+
+	if coord.x in range(canvas.get_size().x) and coord.y in range(canvas.get_size().y):
+		checkInputTexture(coord, otherCoord)
+	
+	if otherCoord.x in range(targetCanvas.get_size().x) and otherCoord.y in range(targetCanvas.get_size().y):
+		checkInputAnimation(coord, otherCoord)
+
+	
+	

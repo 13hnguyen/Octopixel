@@ -32,6 +32,9 @@ gui_disable_input = true
 
 [node name="AnimationCanvas" parent="VBoxContainer/AnimationViewport/Viewport" instance=ExtResource( 1 )]
 unique_name_in_owner = true
+margin_right = -408.0
+margin_bottom = 208.0
+rect_min_size = Vector2( 0, 0 )
 
 [node name="Frames" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 660.0
